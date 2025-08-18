@@ -12,7 +12,7 @@
 	<nav
 		class="flex flex-col md:flex-row min-h-20 px-2 py-4 md:py-0 md:justify-between items-center gap-4"
 	>
-		<img width="75" aria-hidden="true" src={foxIcon} alt="" />
+		<img width="50" aria-hidden="true" src={foxIcon} alt="" />
 		<div class="flex flex-col items-center gap-2 md:flex-row">
 			<NotificationMenu />
 			<ThemeMenu />

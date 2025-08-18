@@ -111,52 +111,29 @@
 	*,
 	*::before,
 	*::after {
-		transition: background 300ms ease-in-out;
+		@apply transition-colors duration-300 ease-in-out;
 		/* outline: solid .01rem hsl(0, 25%, 50%); */
-
-		&:focus:not(:active) {
-			outline-style: solid;
-			outline-color: hsl(var(--color-primary));
-			outline-width: .25rem;
-		}
+		/* filter: grayscale(); */
 	}
 
   body {
-    @apply bg-background text-foreground;
-		height: 100vh;
-    overflow: hidden;
-		font-family: Helvetica, Arial, sans-serif;
-		line-height: 1.5;
-		font-size: clamp(0.5vmin, calc(0.9rem + 0.23vmax), 1rem);
+    @apply bg-background text-foreground h-screen overflow-hidden font-sans leading-[1.5] text-xs;
   }
 
 	h1,
 	h2,
 	h3,
 	h4 {
+		@apply leading-[1.1] font-serif text-base font-bold;
 		letter-spacing: 0.1rem;
-		line-height: 1.1;
 		max-width: 25ch;
-		font-size: clamp(2.5vmin, calc(1.1rem + .23vmax), 1.5rem);
-		font-family: Georgia, 'Times New Roman', Times, serif;
-	}
-
-	a,
-	span,
-	img {
-		display: inline-block;
-	}
-
-	img {
-		max-width: 100%;
-		object-fit: cover;
 	}
 
 	p {
 		max-width: 30ch;
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 48rem) {
 		p {
 			max-width: 60ch;
 		}
