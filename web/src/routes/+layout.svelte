@@ -18,7 +18,7 @@
 	<link rel="icon" href={foxIcon} />
 </svelte:head>
 
-<Background season="winter" />
+<Background season="autumn" />
 <ul role="list" class="fixed z-20 right-0 bottom-0 mb-2 mr-2 flex flex-col gap-4">
 	{#each toastStore.value as t (t.id)}
 		<div animate:flip>
