@@ -7,6 +7,7 @@
 	let theme = $state<Theme>('theme' in localStorage ? localStorage.theme : 'system');
 	let isOpen = $state(false);
 
+	// svelte-ignore non_reactive_update
 	let themeToggleRef: HTMLButtonElement;
 
 	$effect(() => {
@@ -41,9 +42,8 @@
 </script>
 
 <div class="relative">
-	<!-- Toggle -->
 	<button
-		class="bg-muted rounded-full py-0.5 px-1.5 border border-border"
+		class="bg-muted text-muted-foreground rounded-full py-0.5 px-1.5 border border-border"
 		title="Φως / Σκοτάδι"
 		type="button"
 		aria-label="theme"
@@ -58,11 +58,10 @@
 			<span class="relative" aria-hidden="true" role="img">&#128187;</span>
 		{/if}
 	</button>
-	<!-- Menu -->
 	{#if isOpen}
 		<ul
 			role="menu"
-			class="absolute rounded-xl top-full right-1/2 z-40 bg-muted border border-border"
+			class="bg-popover text-popover-foreground absolute rounded-xl top-full right-1/2 z-40 border border-border"
 			use:clickOutClose={{
 				cb: () => (isOpen = false),
 				toggle: themeToggleRef

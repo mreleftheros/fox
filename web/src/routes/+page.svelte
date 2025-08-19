@@ -20,14 +20,18 @@
 	</nav>
 </header>
 <main>
-	<section class="min-h-screen px-2">
-		<div class="flex flex-col gap-2 w-96 bg-muted min-h-96 py-4 px-2 rounded-xl">
+	<section class="px-2">
+		<div
+			class="bg-card text-card-foreground flex flex-col gap-2 w-96 min-h-96 py-4 px-2 rounded-xl"
+		>
 			<h2>Τελευταία Παιχνίδια</h2>
 			<hr />
 			<ul role="list" class="flex flex-col gap-2">
 				<li>
-					<button class="p-2" type="button" onclick={() => appStore.setGame('memory', 'lobby')}
-						>Παιχνίδι Μνήμης</button
+					<button
+						class="bg-accent text-accent-foreground px-4 py-2 rounded-xl border border-border"
+						type="button"
+						onclick={() => appStore.setGame('memory', 'lobby')}>Παιχνίδι Μνήμης</button
 					>
 				</li>
 			</ul>

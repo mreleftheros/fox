@@ -18,7 +18,7 @@
 
 <div
 	role="alert"
-	class="w-[min(40rem,100%)] px-4 py-2 rounded-xl border border-border"
+	class="bg-accent text-accent-foreground w-[min(40rem,100%)] px-4 py-2 rounded-xl border border-border"
 	in:fly={{ x: 50, easing: bounceOut }}
 	out:fade
 >

@@ -17,12 +17,12 @@
 
 <div
 	role="dialog"
-	class="w-[min(50rem,100%)] sm:absolute left-1/4 top-1/4 rounded-xl bg-muted text-muted-foreground border border-border overflow-hidden"
+	class="bg-card text-card-foreground w-[min(50rem,100%)] sm:absolute left-1/4 top-1/4 rounded-xl border border-border overflow-hidden"
 	bind:this={windowRef}
 	aria-label="window"
 >
 	<nav
-		class="bg-primary min-h-8 flex justify-between items-center px-2 cursor-grab"
+		class="bg-primary min-h-8 flex justify-between items-center px-2 py-4 cursor-grab"
 		onpointerdown={(e) => dndStore.onPointerDown(e, windowRef)}
 	>
 		<div>
@@ -31,14 +31,14 @@
 			{/if}
 		</div>
 		<div>
-			<button
+			<!--<button
 				title="Ελαχιστοποίηση παραθύρου"
 				type="button"
 				aria-label="minimize"
 				onclick={() => {}}>&minus;</button
-			>
+			>-->
 			<button
-				class="bg-error text-muted px-4 py-2"
+				class="bg-destructive text-muted rounded-xl px-1.5 py-0.5"
 				title="Κλείσιμο παραθύρου"
 				type="button"
 				aria-label="close"
