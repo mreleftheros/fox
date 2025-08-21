@@ -25,9 +25,9 @@
 </script>
 
 <div class="relative w-full h-full">
-	{#if ui === 'lobby'}
+	{#if ui?.current === 'lobby'}
 		<Lobby bind:ui />
-	{:else if ui === 'room'}
+	{:else if ui?.current === 'room'}
 		<article class="relative flex h-full">
 			<!-- Game -->
 			<div class={`flex-1 flex flex-col`}>

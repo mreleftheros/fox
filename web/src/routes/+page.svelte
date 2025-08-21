@@ -40,7 +40,7 @@
 		{#each windows.openedGames as g (g.name)}
 			<div class="" in:scale={{ easing: cubicInOut }}>
 				{#if g.name === 'memory'}
-					<Window bind:game={g}>
+					<Window name={g.name} bind:ui={g.ui}>
 						{#await import("$lib/games/memory/Game.svelte")}
 							<p>Loading</p>
 						{:then { default: MemoryGame }}

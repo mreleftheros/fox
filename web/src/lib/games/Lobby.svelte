@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { ui = $bindable() }: { ui: Game['ui'] } = $props();
+	let { ui = $bindable() }: { ui: GameUi } = $props();
 </script>
 
 <article class="grid grid-rows-12 h-full">
@@ -8,17 +8,16 @@
 			<button
 				class="bg-accent text-accent-foreground px-4 py-2 border border-border rounded-xl"
 				type="button"
-				onclick={() => (ui = 'room')}>Ένα Στα Γρήγορα</button
+				onclick={() => {
+					ui.value = 'room';
+					ui.current = 'room';
+				}}>Ένα Στα Γρήγορα</button
 			>
-			<button
-				class="px-4 py-2 border border-border rounded-xl"
-				type="button"
-				onclick={() => (ui = 'room')}>Δημιουργία</button
+			<button class="px-4 py-2 border border-border rounded-xl" type="button" onclick={() => {}}
+				>Δημιουργία</button
 			>
-			<button
-				class="px-4 py-2 border border-border rounded-xl"
-				type="button"
-				onclick={() => (ui = 'room')}>Πρόσκληση</button
+			<button class="px-4 py-2 border border-border rounded-xl" type="button" onclick={() => {}}
+				>Πρόσκληση</button
 			>
 		</div>
 	</section>

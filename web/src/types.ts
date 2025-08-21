@@ -67,7 +67,12 @@ type GameData = {
 
 type Game = {
 	name: "memory" | "wordle";
-	ui: "room" | "lobby" | null;
+	ui: GameUi | null;
+};
+
+type GameUi = {
+	value: "room" | "lobby";
+	current: "room" | "lobby";
 };
 
 type GameConfig = {

@@ -4,16 +4,18 @@
 	import { Games } from '../../games';
 
 	let {
-		game = $bindable(),
+		name,
+		ui = $bindable(),
 		children
 	}: {
-		game: Game;
+		name: Game['name'];
+		ui: Game['ui'];
 		children: Snippet;
 	} = $props();
 
 	let windowRef: HTMLDivElement;
 
-	const title = Games.get(game.name).title;
+	const title = Games.get(name).title;
 </script>
 
 <div
@@ -43,7 +45,7 @@
 				title="Κλείσιμο παραθύρου"
 				type="button"
 				aria-label="close"
-				onclick={() => (game.ui = null)}>&times;</button
+				onclick={() => (ui = null)}>&times;</button
 			>
 		</div>
 	</nav>
@@ -56,22 +58,32 @@
 		<button
 			class={`bg-muted text-muted-foreground px-4 py-2 rounded-t-sm`}
 			type="button"
-			onclick={() => (game.ui = 'lobby')}>Λόμπι</button
+			onclick={() => {
+				if (ui == null) return;
+				ui.current = 'lobby';
+			}}>Λόμπι</button
 		>
-		<div class="relative">
-			<button
-				class={`bg-muted text-muted-foreground px-4 py-2 rounded-t-sm`}
-				type="button"
-				onclick={() => (game.ui = 'room')}>Δωμάτιο</button
-			>
-			<button
-				class="absolute top-0 left-full px-3 bg-destructive text-muted"
-				type="button"
-				aria-label="Κλείσιμο παιχνιδιού"
-				onclick={() => {
-					game.ui = 'lobby';
-				}}>&times;</button
-			>
-		</div>
+		{#if ui != null && ui.value === 'room'}
+			<div class="relative">
+				<button
+					class={`bg-muted text-muted-foreground px-4 py-2 rounded-t-sm`}
+					type="button"
+					onclick={() => {
+						if (ui == null) return;
+						ui.current = 'room';
+					}}>Δωμάτιο</button
+				>
+				<button
+					class="absolute top-0 left-full px-3 bg-destructive text-muted rounded-sm"
+					type="button"
+					aria-label="Κλείσιμο παιχνιδιού"
+					onclick={() => {
+						if (ui == null) return;
+						ui.current = 'lobby';
+						ui.value = 'lobby';
+					}}>&times;</button
+				>
+			</div>
+		{/if}
 	</div>
 </div>
