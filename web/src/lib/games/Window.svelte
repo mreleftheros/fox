@@ -20,12 +20,12 @@
 
 <div
 	role="dialog"
-	class="bg-card text-card-foreground h-lg w-[min(50rem,100%)] sm:absolute left-1/4 top-1/4 sm:rounded-sm sm:border sm:border-border"
+	class="bg-card text-card-foreground flex flex-col h-lg w-[min(50rem,100%)] sm:absolute left-1/4 top-1/4 sm:rounded-sm sm:border sm:border-border"
 	bind:this={windowRef}
 	aria-label="window"
 >
 	<nav
-		class="bg-primary flex justify-between items-center p-1 cursor-grab rounded-t-sm"
+		class="bg-primary basis-6 flex justify-between items-center p-1 cursor-grab rounded-t-sm"
 		onpointerdown={(e) => dndStore.onPointerDown(e, windowRef)}
 	>
 		<div>
@@ -49,41 +49,43 @@
 			>
 		</div>
 	</nav>
-	<article class="rounded-b-sm h-full">
+	<article class="rounded-b-sm flex-1">
 		{@render children()}
 	</article>
-	<div
-		class="absolute flex items-center flex-row-reverse top-1/4 right-full -rotate-90 origin-bottom-right gap-12"
-	>
-		<button
-			class={`bg-muted text-muted-foreground px-4 py-2 rounded-t-sm`}
-			type="button"
-			onclick={() => {
-				if (ui == null) return;
-				ui.current = 'lobby';
-			}}>Λόμπι</button
+	{#if ui != null}
+		<div
+			class="absolute flex items-center flex-row-reverse top-1/4 right-full -rotate-90 origin-bottom-right gap-12"
 		>
-		{#if ui != null && ui.value === 'room'}
-			<div class="relative">
-				<button
-					class={`bg-muted text-muted-foreground px-4 py-2 rounded-t-sm`}
-					type="button"
-					onclick={() => {
-						if (ui == null) return;
-						ui.current = 'room';
-					}}>Δωμάτιο</button
-				>
-				<button
-					class="absolute top-0 left-full px-3 bg-destructive text-muted rounded-sm"
-					type="button"
-					aria-label="Κλείσιμο παιχνιδιού"
-					onclick={() => {
-						if (ui == null) return;
-						ui.current = 'lobby';
-						ui.value = 'lobby';
-					}}>&times;</button
-				>
-			</div>
-		{/if}
-	</div>
+			<button
+				class={`bg-muted px-4 py-2 rounded-t-sm ${ui.current === 'lobby' ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
+				type="button"
+				onclick={() => {
+					if (ui == null) return;
+					ui.current = 'lobby';
+				}}>Λόμπι</button
+			>
+			{#if ui.value === 'room'}
+				<div class="relative">
+					<button
+						class={`bg-muted px-4 py-2 rounded-t-sm ${ui.current === 'room' ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
+						type="button"
+						onclick={() => {
+							if (ui == null) return;
+							ui.current = 'room';
+						}}>Δωμάτιο</button
+					>
+					<button
+						class="absolute top-0 left-full px-1.5 bg-destructive text-muted rounded-sm"
+						type="button"
+						aria-label="Κλείσιμο παιχνιδιού"
+						onclick={() => {
+							if (ui == null) return;
+							ui.current = 'lobby';
+							ui.value = 'lobby';
+						}}>&times;</button
+					>
+				</div>
+			{/if}
+		</div>
+	{/if}
 </div>

@@ -9,23 +9,21 @@
 	}: { cfg: GameConfig; isOpen: boolean; start(): void; end(): void } = $props();
 </script>
 
-<div class="relative bg-muted">
+<div
+	class={`relative border border-border text-center ${cfg.status === 'idle' ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
+>
 	{#if isOpen}
 		<div class="flex flex-col gap-2 px-2 py-4 items-center h-full" transition:slide={{ axis: 'x' }}>
-			<h3 class="text-center select-none">Ρυθμίσεις</h3>
-			<hr class="border border-muted-800 rounded-xl w-3/4 mt-2 mb-6" />
-			<form
-				class="flex-1 flex flex-col items-center gap-2 border border-muted-800 py-4 px-2 rounded-lg"
-				autocomplete="off"
-			>
-				<div class="flex flex-col items-center gap-1" role="group">
-					<label class="form-label" for="levels">Δυσκολία</label>
+			<h3 class="basis-12 select-none">Ρυθμίσεις</h3>
+			<form class="flex-1 flex flex-col items-center gap-2 px-2 py-4" autocomplete="off">
+				<div>
+					<label class="block font-medium mb-1" for="levels">Δυσκολία</label>
 					<select
-						class="form-select bg-muted-100"
+						class="bg-input p-1 rounded-lg"
 						name="levels"
 						id="levels"
 						bind:value={cfg.level}
-						disabled={cfg.status === 'play'}
+						disabled={cfg.status === 'play' || cfg.status === 'ready'}
 					>
 						<option value={0}>Αρχάριος</option>
 						<option value={1}>Κανονικός</option>
@@ -34,20 +32,20 @@
 				</div>
 				{#if cfg.status === 'play'}
 					<button
-						class="bg-error text-muted-20 px-2 py-4 border border-muted-950 mt-auto w-32"
+						class="bg-destructive text-muted px-4 py-2 border border-border mt-auto rounded-xl"
 						type="button"
 						onclick={end}>Λήξη</button
 					>
 				{:else}
 					<button
-						class="bg-secondary text-muted-5 px-2 py-4 border border-muted-950 mt-auto"
+						class="bg-primary px-4 py-2 border border-border mt-auto rounded-xl"
 						type="button"
 						onclick={start}>Εκκίνηση</button
 					>
 				{/if}
 			</form>
 			<button
-				class="absolute btn left-0 top-1/2 p-2"
+				class="absolute left-0 top-1/2 p-2"
 				type="button"
 				title="κλείσιμο ρυθμίσεων"
 				onclick={() => (isOpen = false)}>&#10097;</button
@@ -55,7 +53,7 @@
 		</div>
 	{:else}
 		<button
-			class="absolute btn right-0 top-1/2 p-2"
+			class="absolute right-0 top-1/2 p-2"
 			type="button"
 			title="άνοιγμα ρυθμίσεων"
 			in:fade={{ delay: 150 }}

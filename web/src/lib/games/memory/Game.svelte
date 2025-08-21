@@ -24,27 +24,26 @@
 	});
 </script>
 
-<div class="relative w-full h-full">
+<div class="relative w-full h-full bg-card text-card-foreground">
 	{#if ui?.current === 'lobby'}
 		<Lobby bind:ui />
 	{:else if ui?.current === 'room'}
 		<article class="relative flex h-full">
-			<!-- Game -->
 			<div class={`flex-1 flex flex-col`}>
 				<div class="basis-24 flex items-center gap-2">
 					<div></div>
 					<div>
 						<progress value="40" max="100"></progress>
-						<span>{store.level.duration / 1000} seconds left</span>
+						<output>{store.level.duration / 1000} seconds left</output>
 					</div>
 				</div>
 				<div
-					class={`flex-1 p-2 grid ${store.gridColsClass} grid-rows-4 gap-8 justify-items-center`}
+					class={`flex-1 p-2 grid ${store.gridColsClass} grid-rows-4 gap-8 justify-items-center `}
 				>
 					{#if store.value.allCards.length > 0 && store.config.status === 'play'}
 						{#each store.value.allCards as c (c.id)}
 							<button
-								class="relative rounded-lg w-28 bg-gradient-to-tr from-primary-500 to-secondary card"
+								class="relative rounded-lg w-18 bg-gradient-to-tr from-secondary to-primary card"
 								type="button"
 								aria-label="Κάρτα παιχνιδιού"
 								onclick={() => (store.value.isPause ? undefined : store.value.flippedCards.push(c))}
@@ -58,7 +57,7 @@
 									></div>
 									<div class="back bg-primary-50 rounded-lg">
 										<span
-											class="text-6xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+											class="text-4xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 											>{@html c.value}</span
 										>
 									</div>
@@ -68,7 +67,7 @@
 					{:else}
 						{#each Array(store.level.pairs * 2) as _}
 							<button
-								class="relative btn rounded-lg w-28 bg-gradient-to-tr from-primary-500 to-secondary card"
+								class="relative rounded-lg w-18 bg-gradient-to-tr from-primary to-secondary card"
 								aria-label="Κάρτα παιχνιδιού"
 								disabled
 								type="button"
@@ -82,7 +81,6 @@
 					{/if}
 				</div>
 			</div>
-			<!-- Game Config Panel -->
 			<Config
 				cfg={store.config}
 				bind:isOpen={store.value.isConfigOpen}
