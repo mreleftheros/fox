@@ -4,10 +4,10 @@ export default (() => {
 	let allGames = $state(
 		Object.keys(Games.value).map((n) => ({
 			name: n,
-			ui: null,
+			ui: "lobby",
 		})) as Game[],
 	);
-	const activeGames = $derived(
+	const openedGames = $derived(
 		allGames.filter((g) => g.ui === "room" || g.ui === "lobby"),
 	);
 
@@ -31,8 +31,8 @@ export default (() => {
 		get allGames() {
 			return allGames;
 		},
-		get activeGames() {
-			return activeGames;
+		get openedGames() {
+			return openedGames;
 		},
 		setGame,
 	};

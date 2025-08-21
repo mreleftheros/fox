@@ -1,6 +1,6 @@
 <script lang="ts">
-	import appStore from '../store/app.svelte';
-	import Window from '$lib/Window.svelte';
+	import windows from '../store/windows.svelte';
+	import Window from '$lib/games/Window.svelte';
 	import foxIcon from '$lib/assets/fox.svg';
 	import NotificationMenu from '$lib/NotificationMenu.svelte';
 	import ThemeMenu from '$lib/ThemeMenu.svelte';
@@ -22,7 +22,7 @@
 <main>
 	<section class="px-2">
 		<div
-			class="bg-card text-card-foreground flex flex-col gap-2 w-96 min-h-96 py-4 px-2 rounded-xl"
+			class="bg-card text-card-foreground flex flex-col gap-2 max-w-sm max-h-xl overflow-y-auto py-4 px-2 rounded-xl"
 		>
 			<h2>Τελευταία Παιχνίδια</h2>
 			<hr />
@@ -31,23 +31,20 @@
 					<button
 						class="bg-accent text-accent-foreground px-4 py-2 rounded-xl border border-border"
 						type="button"
-						onclick={() => appStore.setGame('memory', 'lobby')}>Παιχνίδι Μνήμης</button
+						onclick={() => windows.setGame('memory', 'lobby')}>Παιχνίδι Μνήμης</button
 					>
 				</li>
 			</ul>
 		</div>
 		<!-- Games -->
-		{#each appStore.activeGames as ag, i (ag.name)}
-			<div in:scale={{ easing: cubicInOut }}>
-				{#if ag.name === 'memory'}
-					<Window title="Παιχνίδι Μνήμης" onClose={() => (ag.ui = null)}>
+		{#each windows.openedGames as g (g.name)}
+			<div class="" in:scale={{ easing: cubicInOut }}>
+				{#if g.name === 'memory'}
+					<Window bind:game={g}>
 						{#await import("$lib/games/memory/Game.svelte")}
 							<p>Loading</p>
 						{:then { default: MemoryGame }}
-							<MemoryGame
-								name={appStore.activeGames[i].name}
-								bind:ui={appStore.activeGames[i].ui}
-							/>
+							<MemoryGame bind:ui={g.ui} />
 						{/await}
 					</Window>
 				{/if}

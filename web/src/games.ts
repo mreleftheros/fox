@@ -1,7 +1,7 @@
 export namespace Games {
 	export const value: Record<Game["name"], GameData> = {
-		memory: { players: [1, 2] },
-		wordle: { players: [1] },
+		memory: { players: [1, 2], title: "Παιχνίδι Μνήμης" },
+		wordle: { players: [1], title: "Wordle" },
 	};
 
 	export const get = (name: Game["name"]): GameData => value[name];

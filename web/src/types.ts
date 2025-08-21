@@ -62,6 +62,7 @@ type Resources = {
 
 type GameData = {
 	players: number[];
+	title: string;
 };
 
 type Game = {

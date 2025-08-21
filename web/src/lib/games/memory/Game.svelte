@@ -1,10 +1,9 @@
 <script lang="ts">
 	import store from './store.svelte';
 	import Lobby from '$lib/games/Lobby.svelte';
-	import { fade, slide } from 'svelte/transition';
 	import Config from '../Config.svelte';
 
-	let { name, ui = $bindable() }: Game = $props();
+	let { ui = $bindable() }: Pick<Game, 'ui'> = $props();
 
 	$effect(() => {
 		if (store.isMatch) {
@@ -92,31 +91,6 @@
 			/>
 		</article>
 	{/if}
-	<!-- Left Window-->
-	<div
-		class="absolute flex items-center flex-row-reverse top-1/4 right-full -rotate-90 origin-bottom-right gap-12"
-	>
-		<button
-			class={`rounded-b-none text-muted-800 px-6 py-2 ${ui === 'lobby' ? 'bg-primary-300' : 'bg-primary-300/50'}`}
-			type="button"
-			onclick={() => (ui = 'lobby')}>Λόμπι</button
-		>
-		<div class="relative" aria-hidden="true">
-			<button
-				class={`btn rounded-b-none rounded-tr-none text-muted-800 px-6 py-2 ${ui === 'room' ? 'bg-primary-300' : 'bg-primary-300/50'}`}
-				type="button"
-				onclick={() => (ui = 'room')}>Δωμάτιο</button
-			>
-			<button
-				class="absolute top-0 left-full px-3 btn rounded-l-none bg-error text-muted-20"
-				type="button"
-				aria-label="Κλείσιμο παιχνιδιού"
-				onclick={() => {
-					ui = 'lobby';
-				}}>&times;</button
-			>
-		</div>
-	</div>
 </div>
 
 <style lang="postcss">
