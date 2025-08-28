@@ -4,9 +4,17 @@ export default (() => {
 	let allGames = $state(
 		Object.keys(Games.value).map((n) => ({
 			name: n,
-			ui: { value: "lobby", current: "lobby" },
+			ui: null,
 		})) as Game[],
 	);
+	// ONLY FOR DEV
+	// allGames = allGames.map((g) => {
+	// 	if (g.name === "drawit") {
+	// 		g.ui = { value: "lobby", current: "lobby" };
+	// 	}
+	// 	return g;
+	// });
+	let chatUi = $state(false);
 	const openedGames = $derived(allGames.filter((g) => g.ui != null));
 
 	const setGame = (name: Game["name"], ui: GameUi["value"]) => {
@@ -31,6 +39,12 @@ export default (() => {
 		},
 		get openedGames() {
 			return openedGames;
+		},
+		get chatUi() {
+			return chatUi;
+		},
+		set chatUi(v: boolean) {
+			chatUi = v;
 		},
 		setGame,
 	};

@@ -1,7 +1,12 @@
 export namespace Games {
 	export const value: Record<Game["name"], GameData> = {
+		drawit: {
+			players: Array(10)
+				.fill(null)
+				.map((_, i) => i + 1),
+			title: "Ζωγραφική",
+		},
 		memory: { players: [1, 2], title: "Παιχνίδι Μνήμης" },
-		wordle: { players: [1], title: "Wordle" },
 	};
 
 	export const get = (name: Game["name"]): GameData => value[name];

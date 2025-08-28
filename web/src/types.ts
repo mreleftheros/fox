@@ -66,7 +66,7 @@ type GameData = {
 };
 
 type Game = {
-	name: "memory" | "wordle";
+	name: "drawit" | "memory";
 	ui: GameUi | null;
 };
 

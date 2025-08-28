@@ -1,5 +1,5 @@
 <script lang="ts">
-	import windows from '../store/windows.svelte';
+	import windowStore from '../store/windows.svelte';
 	import Window from '$lib/games/Window.svelte';
 	import foxIcon from '$lib/assets/fox.svg';
 	import NotificationMenu from '$lib/NotificationMenu.svelte';
@@ -14,6 +14,13 @@
 	>
 		<img width="50" aria-hidden="true" src={foxIcon} alt="" />
 		<div class="flex flex-col items-center gap-2 md:flex-row">
+			<button
+				title="Γενική συνομιλία"
+				aria-label="Συνομιλία"
+				type="button"
+				class="bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 border border-border"
+				onclick={() => (windowStore.chatUi = true)}>&#128172;</button
+			>
 			<NotificationMenu />
 			<ThemeMenu />
 		</div>
@@ -31,15 +38,23 @@
 					<button
 						class="bg-accent text-accent-foreground px-4 py-2 rounded-xl border border-border"
 						type="button"
-						onclick={() => windows.setGame('memory', 'lobby')}>Παιχνίδι Μνήμης</button
+						onclick={() => windowStore.setGame('drawit', 'lobby')}>Ζωγραφική</button
 					>
 				</li>
 			</ul>
 		</div>
 		<!-- Games -->
-		{#each windows.openedGames as g (g.name)}
-			<div class="" in:scale={{ easing: cubicInOut }}>
-				{#if g.name === 'memory'}
+		{#each windowStore.openedGames as g (g.name)}
+			<div in:scale={{ easing: cubicInOut }}>
+				{#if g.name === 'drawit'}
+					<Window name={g.name} bind:ui={g.ui}>
+						{#await import("$lib/games/drawit/Game.svelte")}
+							<p>Loading</p>
+						{:then { default: DrawIt }}
+							<DrawIt bind:ui={g.ui} />
+						{/await}
+					</Window>
+				{:else if g.name === 'memory'}
 					<Window name={g.name} bind:ui={g.ui}>
 						{#await import("$lib/games/memory/Game.svelte")}
 							<p>Loading</p>
@@ -50,5 +65,15 @@
 				{/if}
 			</div>
 		{/each}
+		<!-- Chat -->
+		{#if windowStore.chatUi}
+			{#await import("$lib/chat/Chat.svelte")}
+				<p>Loading</p>
+			{:then { default: Chat }}
+				<div class="" in:scale={{ easing: cubicInOut }}>
+					<Chat bind:chatUi={windowStore.chatUi} />
+				</div>
+			{/await}
+		{/if}
 	</section>
 </main>
