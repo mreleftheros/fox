@@ -14,13 +14,18 @@
 	>
 		<img width="50" aria-hidden="true" src={foxIcon} alt="" />
 		<div class="flex flex-col items-center gap-2 md:flex-row">
-			<button
-				title="Γενική συνομιλία"
-				aria-label="Συνομιλία"
-				type="button"
-				class="bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 border border-border"
-				onclick={() => (windowStore.chatUi = true)}>&#128172;</button
+			<div
+				class="flex items-center justify-between
+				 w-md bg-card p-1 rounded-4xl"
 			>
+				<button
+					title="Γενική συνομιλία"
+					aria-label="Συνομιλία"
+					type="button"
+					class={`${windowStore.chatUi ? 'bg-primary/25' : 'bg-muted'} text-muted-foreground text-2xl rounded-full px-1.5 py-0.5 border border-border`}
+					onclick={() => (windowStore.chatUi = true)}>&#128490;</button
+				>
+			</div>
 			<NotificationMenu />
 			<ThemeMenu />
 		</div>

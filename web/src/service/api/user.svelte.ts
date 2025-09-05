@@ -28,6 +28,9 @@ export const users_login_post = async (ul: UserLogin) => {
 
 export const users_current_get = async () => {
 	const res = await fetch(`${URL}/current`, {
+		headers: {
+			"Content-Type": "application/json",
+		},
 		credentials: "include",
 	});
 	return (await res.json()) as ApiResponse<User>;

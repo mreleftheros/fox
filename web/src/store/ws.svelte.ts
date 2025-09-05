@@ -7,7 +7,7 @@ export default (() => {
 	let isLoading = $state(false);
 	let error = $state("");
 
-	const connectChat = async () => {
+	const connectChatWs = async () => {
 		try {
 			isLoading = true;
 			wsChat = new WebSocket(CHAT_WS_URL);
@@ -27,6 +27,11 @@ export default (() => {
 		}
 	};
 
+	const closeChatWs = () => {
+		wsChat?.close();
+		wsChat = null;
+	};
+
 	return {
 		wsChat,
 		get isLoading() {
@@ -35,6 +40,7 @@ export default (() => {
 		get error() {
 			return error;
 		},
-		connectChat,
+		connectChatWs,
+		closeChatWs,
 	};
 })();

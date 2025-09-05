@@ -1,0 +1,17 @@
+{
+	"name": "api",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"cf-typegen": "wrangler types"
+	},
+	"devDependencies": {
+		"cookie": "^1.0.2",
+		"jose": "^6.1.0",
+		"typescript": "^5.5.2",
+		"wrangler": "^4.33.0"
+	}
+}

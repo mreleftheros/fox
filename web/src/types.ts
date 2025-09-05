@@ -36,7 +36,7 @@ type User = {
 	id: number;
 	username: string;
 	email: string;
-	gender: 1 | 0;
+	gender: 0 | 1;
 	accessLevel: 0 | 1 | 100;
 	isVerified: 1 | 0;
 	createdOn: number;
@@ -46,9 +46,10 @@ type UserSignup = {
 	username: string;
 	email: string;
 	password: string;
+	gender: 0 | 1;
 };
 
-type UserLogin = Omit<UserSignup, "email">;
+type UserLogin = Pick<UserSignup, "username" | "password">;
 
 type UserErrors = {
 	username?: string;

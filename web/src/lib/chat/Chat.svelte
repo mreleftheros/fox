@@ -1,11 +1,13 @@
 <script lang="ts">
 	import wsStore from '../../store/ws.svelte';
 	import dndStore from '../../store/dnd.svelte';
+	import store, { CATEGORIES } from './store.svelte';
 
 	let { chatUi = $bindable() }: { chatUi: boolean } = $props();
 
 	$effect(() => {
-		wsStore.connectChat();
+		wsStore.connectChatWs();
+		return () => wsStore.closeChatWs();
 	});
 
 	let windowRef: HTMLDivElement;
@@ -13,7 +15,7 @@
 
 <div
 	role="dialog"
-	class="bg-card text-card-foreground flex flex-col h-lg w-[min(50rem,100%)] sm:absolute left-1/4 top-1/4 sm:rounded-sm sm:border sm:border-border"
+	class="bg-card text-card-foreground flex flex-col h-xl w-[min(50rem,100%)] sm:absolute left-1/4 top-1/4 sm:rounded-sm sm:border sm:border-border"
 	bind:this={windowRef}
 	aria-label="window"
 >
@@ -33,15 +35,24 @@
 		</div>
 	</nav>
 	<section class="rounded-b-sm flex-1 grid grid-cols-12 grid-rows-12">
-		<header class="col-start-1 col-end-10 row-start-1 row-end-2 border border-border p-1">
-			kathgories
+		<header
+			class="col-start-1 col-end-10 row-start-1 row-end-2 flex items-center gap-x-2 border border-border p-1"
+		>
+			{#each CATEGORIES as c, i (c.name)}
+				<button
+					aria-label={c.name}
+					title={c.name}
+					class={`${store.category === c.name ? 'bg-primary/25' : 'bg-muted'} text-3xl rounded-full px-1.5 py-0.5 border border-border`}
+					onclick={() => store.selectCategory(i)}>{@html c.icon}</button
+				>
+			{/each}
 		</header>
 		<article class="col-start-1 col-end-10 row-start-2 row-end-12 border border-border p-1">
-			chat
+			{store.category}
 		</article>
 		<form class="row-start-12 row-end-13 col-start-1 col-end-10 flex p-1 border border-border">
 			<input
-				class="border border-input flex-1"
+				class="border border-input flex-1 px-2"
 				type="text"
 				name="message"
 				placeholder="Γράψε ένα μήνυμα..."
