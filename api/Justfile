@@ -1,2 +1,11 @@
-types:
-	pnpm ./node_modules/wrangler/bin/wrangler.js types
+db_name := "fox"
+
+d1-set:
+	pnpm ./node_modules/wrangler/bin/wrangler.js d1 create {{db_name}}
+mig-set migration_name:
+	pnpm ./node_modules/wrangler/bin/wrangler.js d1 migrations create {{db_name}} {{migration_name}}
+mig-list:
+	pnpm ./node_modules/wrangler/bin/wrangler.js d1 migrations list {{db_name}}
+mig-apply:
+	pnpm ./node_modules/wrangler/bin/wrangler.js d1 migrations apply {{db_name}}
+

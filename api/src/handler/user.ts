@@ -1,6 +1,8 @@
+import { User } from "../store/user";
 import ApiError from "../util/error";
+import { json } from "../util/response";
 
-export default (
+export default async (
 	req: Request,
 	env: Env,
 	ctx: ExecutionContext,
@@ -9,7 +11,11 @@ export default (
 	if (path[1]) {
 		if (path[1] === "signup" && req.method === "POST") {
 			// /users/signup
-			User;
+			const us: UserSignup = await req.json();
+			const { error, data, errors } = User.validateSignup(us);
+			if (error) {
+				return json(req, { error, errors }, 400);
+			}
 		} else if (path[1] === "login" && req.method === "POST") {
 			// /users/login
 		} else if (path[1] === "logout" && req.method === "POST") {

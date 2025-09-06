@@ -54,5 +54,53 @@ export namespace User {
 
 		return { data: us };
 	};
-	export const set = () => {};
+	export const set = async (env: Env, us: UserSignup) => {
+		const hashedPassword = await getHashedPassword(env, password);
+		const date = getSqlDate();
+
+		const { meta } = await env.DB.prepare('INSERT INTO users(username, password) VALUES(?, ?);').bind(username, hashedPassword).run();
+
+		return {
+			id: meta.last_row_id,
+			username,
+			accessLevel: 100,
+			isVerified: 0,
+			updatedAt: date,
+		} as UserItem;
+	}
+
+	static async login(env: Env, credentials: UserLogin) {
+		const { username, password } = credentials;
+		const user = await env.DB.prepare('SELECT id, username, password, accessLevel, isVerified, updatedAt FROM users WHERE username = ?;')
+			.bind(username)
+			.first<UserDao>();
+		if (!user) return null;
+
+		const passwordMatches = await comparePassword(env, user.password, password);
+		if (!passwordMatches) return null;
+
+		const { password: pw, ...rest } = user;
+
+		return rest as UserItem;
+	}
+
+	static async getAll(env: Env) {
+		const { results } = await env.DB.prepare(
+			'SELECT id, username, accessLevel, isVerified, updatedAt FROM users ORDER BY updatedAt;'
+		).all<UserItem>();
+
+		return results;
+	}
+
+	static async getById(env: Env, id: UserItem['id']) {
+		return await env.DB.prepare('SELECT id, username, accessLevel, isVerified, updatedAt FROM users WHERE id = ?;')
+			.bind(id)
+			.first<UserItem>();
+	}
+
+	static async verify(env: Env, id: UserItem['id']) {
+		const { success } = await env.DB.prepare('UPDATE users SET isVerified = 1 WHERE id = ?;').bind(id).run();
+
+		return success;
+	}
 }
