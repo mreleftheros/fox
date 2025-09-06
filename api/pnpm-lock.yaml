@@ -7,13 +7,14 @@ settings:
 importers:
 
   .:
-    devDependencies:
+    dependencies:
       cookie:
         specifier: ^1.0.2
         version: 1.0.2
       jose:
         specifier: ^6.1.0
         version: 6.1.0
+    devDependencies:
       typescript:
         specifier: ^5.5.2
         version: 5.9.2
