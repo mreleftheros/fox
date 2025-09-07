@@ -59,7 +59,11 @@ export namespace User {
 	export const set = async (env: Env, us: UserSignup) => {
 		const hash = await Password.hash(us.password, env.SALT);
 
-		const { meta } = await env.DB.prepare('INSERT INTO users(username, email, hash, gender) VALUES(?, ?, ?, ?);').bind(us.username, us.email, hash, us.gender).run();
+		const { meta } = await env.DB.prepare(
+			"INSERT INTO users(username, email, hash, gender) VALUES(?, ?, ?, ?);",
+		)
+			.bind(us.username, us.email, hash, us.gender)
+			.run();
 
 		return {
 			id: meta.last_row_id,
@@ -69,40 +73,39 @@ export namespace User {
 			accessLevel: 100,
 			isVerified: 0,
 		} as User;
-	}
+	};
 
-	static async login(env: Env, credentials: UserLogin) {
-		const { username, password } = credentials;
-		const user = await env.DB.prepare('SELECT id, username, password, accessLevel, isVerified, updatedAt FROM users WHERE username = ?;')
+	export const getByUsername = async (env: Env, username: User["username"]) => {
+		return await env.DB.prepare(
+			"SELECT id, username, email, hash, gender, accessLevel, isVerified, createdOn FROM users WHERE username = ?;",
+		)
 			.bind(username)
 			.first<UserDao>();
-		if (!user) return null;
+	};
 
-		const passwordMatches = await comparePassword(env, user.password, password);
-		if (!passwordMatches) return null;
-
-		const { password: pw, ...rest } = user;
-
-		return rest as UserItem;
-	}
-
-	static async getAll(env: Env) {
+	export const getAll = async (env: Env) => {
 		const { results } = await env.DB.prepare(
-			'SELECT id, username, accessLevel, isVerified, updatedAt FROM users ORDER BY updatedAt;'
-		).all<UserItem>();
+			"SELECT id, username, email, gender, accessLevel, isVerified FROM users ORDER BY createdOn DESC;",
+		).all<User>();
 
 		return results;
-	}
+	};
 
-	export const get = async (env: Env, id: User['id']) => {
-		return await env.DB.prepare('SELECT id, username, email, gender, accessLevel, isVerified, FROM users WHERE id = ?;')
+	export const get = async (env: Env, id: User["id"]) => {
+		return await env.DB.prepare(
+			"SELECT id, username, email, gender, accessLevel, isVerified, FROM users WHERE id = ?;",
+		)
 			.bind(id)
 			.first<User>();
-	}
+	};
 
-	static async verify(env: Env, id: UserItem['id']) {
-		const { success } = await env.DB.prepare('UPDATE users SET isVerified = 1 WHERE id = ?;').bind(id).run();
+	export const verify = async (env: Env, id: User["id"]) => {
+		const { success } = await env.DB.prepare(
+			"UPDATE users SET isVerified = 1 WHERE id = ?;",
+		)
+			.bind(id)
+			.run();
 
 		return success;
-	}
+	};
 }
