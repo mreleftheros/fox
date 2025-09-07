@@ -1,4 +1,5 @@
 import * as jose from "jose";
+import { EXPIRES_SECONDS } from "./shared";
 
 export namespace Jwt {
 	export const sign = async <T extends Partial<User>>(
@@ -10,10 +11,11 @@ export namespace Jwt {
 		return await new jose.SignJWT({
 			id: userParams.id,
 			accessLevel: userParams.accessLevel,
+			isVerified: userParams.isVerified,
 		})
 			.setProtectedHeader({ alg: "HS256" })
 			.setIssuedAt()
-			.setExpirationTime("1y")
+			.setExpirationTime(EXPIRES_SECONDS)
 			.sign(secretBuf);
 	};
 

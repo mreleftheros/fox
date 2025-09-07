@@ -1,5 +1,5 @@
 interface ExecutionContext {
-	user?: User;
+	jwtClaims?: JwtClaims;
 }
 
 type UserDao = {
@@ -13,7 +13,7 @@ type UserDao = {
 	createdOn: number;
 };
 
-type User = Omit<UserDao, "hash">;
+type User = Omit<UserDao, "hash" | "createdOn">;
 
 type UserSignup = {
 	username: string;
@@ -35,6 +35,8 @@ type UserValidation = {
 	data?: UserSignup;
 	errors?: UserErrors;
 };
+
+type JwtClaims = Pick<User, "id" | "accessLevel" | "isVerified">;
 
 type Resources = {
 	users?: User[];

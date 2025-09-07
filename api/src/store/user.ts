@@ -1,3 +1,5 @@
+import { Password } from "../util/password";
+
 export namespace User {
 	export const validateSignup = <T extends UserSignup>(
 		us: T,
@@ -55,18 +57,18 @@ export namespace User {
 		return { data: us };
 	};
 	export const set = async (env: Env, us: UserSignup) => {
-		const hashedPassword = await getHashedPassword(env, password);
-		const date = getSqlDate();
+		const hash = await Password.hash(us.password, env.SALT);
 
-		const { meta } = await env.DB.prepare('INSERT INTO users(username, password) VALUES(?, ?);').bind(username, hashedPassword).run();
+		const { meta } = await env.DB.prepare('INSERT INTO users(username, email, hash, gender) VALUES(?, ?, ?, ?);').bind(us.username, us.email, hash, us.gender).run();
 
 		return {
 			id: meta.last_row_id,
-			username,
+			username: us.username,
+			email: us.email,
+			gender: us.gender,
 			accessLevel: 100,
 			isVerified: 0,
-			updatedAt: date,
-		} as UserItem;
+		} as User;
 	}
 
 	static async login(env: Env, credentials: UserLogin) {
@@ -92,10 +94,10 @@ export namespace User {
 		return results;
 	}
 
-	static async getById(env: Env, id: UserItem['id']) {
-		return await env.DB.prepare('SELECT id, username, accessLevel, isVerified, updatedAt FROM users WHERE id = ?;')
+	export const get = async (env: Env, id: User['id']) => {
+		return await env.DB.prepare('SELECT id, username, email, gender, accessLevel, isVerified, FROM users WHERE id = ?;')
 			.bind(id)
-			.first<UserItem>();
+			.first<User>();
 	}
 
 	static async verify(env: Env, id: UserItem['id']) {
